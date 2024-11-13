@@ -126,6 +126,8 @@ function checkForMatches() {
   }
 
   if (matchesFound) {
+    currentStreak++;
+    updateScoreAndStreak();
     setTimeout(replaceMatches, 500); // Replace matches after a small delay
   } else {
     // No matches, reset the swipe action
@@ -172,10 +174,34 @@ function applyGravity() {
 
 // Update score and streak
 function updateScoreAndStreak() {
-  currentStreak++;
-  longestStreak = Math.max(longestStreak, currentStreak);
   scoreDisplay.textContent = score;
-  streakDisplay.textContent = longestStreak;
+  streakDisplay.textContent = currentStreak;
+
+  // Trigger celebration at streak 20
+  if (currentStreak % 20 === 0 && currentStreak !== 0) {
+    triggerCelebration();
+  }
+
+  // Update longest streak if necessary
+  longestStreak = Math.max(longestStreak, currentStreak);
+}
+
+// Trigger celebration effect
+function triggerCelebration() {
+  for (let i = 0; i < 30; i++) {
+    setTimeout(createFirework, i * 100);
+  }
+}
+
+// Create a firework for celebration
+function createFirework() {
+  const firework = document.createElement("div");
+  firework.classList.add("firework");
+  firework.style.left = `${Math.random() * window.innerWidth}px`;
+  firework.style.top = `${Math.random() * window.innerHeight}px`;
+  firework.style.backgroundColor = candyColors[Math.floor(Math.random() * candyColors.length)];
+  document.body.appendChild(firework);
+  setTimeout(() => firework.remove(), 1000);
 }
 
 createBoard();
