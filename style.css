@@ -71,22 +71,6 @@ h1 {
   animation: disappear 0.5s ease;
 }
 
-/* Candy styles */
-.candy {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.15s ease, background-color 0.1s ease;
-  user-select: none;
-}
-
-.candy.dragging {
-  transform: scale(1.2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-
 @keyframes disappear {
   0% {
     opacity: 1;
