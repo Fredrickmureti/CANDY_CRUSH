@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #ffccff, #ff99cc);
+  color: #333;
+}
+
+h1 {
+  margin: 20px;
+  color: #ff0066;
+  text-shadow: 2px 2px #ff99cc;
+}
+
+.score-container {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  gap: 4px;
+  width: auto;
+  border: 4px solid #ff66a3;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #ffffffaa;
+}
+
+.candy {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.candy:hover {
+  transform: scale(1.1);
+}
+
+.candy.red {
+  background-color: #ff4d4d;
+}
+
+.candy.blue {
+  background-color: #4d79ff;
+}
+
+.candy.green {
+  background-color: #4dff88;
+}
+
+.candy.yellow {
+  background-color: #ffd633;
+}
+
+.candy.purple {
+  background-color: #b366ff;
+}
+
+.matched {
+  animation: disappear 0.5s ease;
+}
+
+@keyframes disappear {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/* Existing styles... */
+
+footer {
+  margin-top: 20px;
+  font-size: 1em;
+  color: #555;
+}
+
+footer a {
+  color: #ff0066;
+  text-decoration: none;
+}
+
+footer .github-link img {
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+/* Fireworks effect */
+.firework {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: explode 1s ease forwards;
+}
+
+@keyframes explode {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(4); }
+}
