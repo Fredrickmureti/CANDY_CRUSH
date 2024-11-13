@@ -1,6 +1,7 @@
 const grid = document.getElementById("grid");
 const scoreDisplay = document.getElementById("score");
 const streakDisplay = document.getElementById("streak");
+const background_audio = '/audio/Me_Gustas.mp3';
 const width = 8;
 const candyColors = ["red", "blue", "green", "yellow", "purple"];
 let score = 0;
@@ -14,7 +15,7 @@ let squareIdBeingSwiped;
 
 // Sound effects and background music
 const matchSound = new Audio('match-sound.mp3');
-const backgroundMusic = new Audio('/audios/Me_Gustas.mp3');
+const backgroundMusic = new Audio(background_audio);
 backgroundMusic.loop = true;
 backgroundMusic.play();
 
