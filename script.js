@@ -14,10 +14,76 @@ let swipeStartX, swipeStartY, swipeEndX, swipeEndY, direction;
 let squareIdBeingSwiped;
 
 // Sound effects and background music
-const matchSound = new Audio('match-sound.mp3');
-const backgroundMusic = new Audio(background_audio);
-backgroundMusic.loop = true;
-backgroundMusic.play();
+const matchSound = new Audio('/audio/game-bonus-144751_2FicewcF.mp3');
+//const backgroundMusic = new Audio('/audio/Me_Gustas.mp3');
+//backgroundMusic.loop = true;
+//backgroundMusic.play();
+const backgroundMusic = new Audio();
+const musicTracks = [
+  '/audio/Me_Gustas.mp3', // Replace with actual URLs or file paths for your music tracks
+  '/audio/Wiz Khalifa - the thrill (1 hour).mp3', // Replace with actual URLs or file paths for your music tracks
+  '/audio/Wonki - Sunset Paradise (Vlog No Copyright Music).m4a.mp3',
+  '/audio/Bronski Beat - Smalltown Boy (Official Video).m4a.mp3'
+];
+
+let currentTrackIndex = 0;
+let isMusicPlaying = true;
+
+const musicControls = document.getElementById("music-controls");
+const playNextButton = document.getElementById("play-next-music");
+const toggleMusicButton = document.getElementById("toggle-music");
+const musicToggle = document.getElementById("music-toggle");
+const toggleButton = document.getElementById("toggle-button");
+
+
+// Play the current track
+function playMusic() {
+  backgroundMusic.src = musicTracks[currentTrackIndex];
+  backgroundMusic.loop = false;
+  backgroundMusic.play();
+}
+
+// Change to the next track in the array
+function playNextTrack() {
+  currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
+  playMusic();
+}
+
+
+// Set up music controls and event listeners
+function setupMusicControls() {
+  // Automatically start playing music when the game opens
+  playMusic();
+
+  // When the music ends, play the next track
+  backgroundMusic.addEventListener('ended', playNextTrack);
+
+  // Play next track when button clicked
+  playNextButton.addEventListener('click', playNextTrack);
+
+  // Toggle music on/off when button clicked
+  toggleMusicButton.addEventListener('click', toggleMusic);
+
+  // Toggle visibility of music controls
+  toggleButton.addEventListener('click', () => {
+    musicControls.style.display = musicControls.style.display === "none" ? "flex" : "none";
+  });
+}
+
+// Call the function to set up music controls when the game starts
+setupMusicControls();
+// Toggle music on/off
+function toggleMusic() {
+  if (isMusicPlaying) {
+    backgroundMusic.pause();
+    toggleMusicButton.textContent = "Play Music";
+  } else {
+    playMusic();
+    toggleMusicButton.textContent = "Pause Music";
+  }
+  isMusicPlaying = !isMusicPlaying;
+}
+
 
 // Create the board
 function createBoard() {
@@ -206,3 +272,6 @@ function createFirework() {
 }
 
 createBoard();
+
+
+

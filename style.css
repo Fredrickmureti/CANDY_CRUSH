@@ -126,3 +126,58 @@ footer .github-link img {
     transform: scale(4);
   }
 }
+
+.music-controls {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000;
+  display: none;
+  /* Initially hidden */
+}
+
+.music-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.control-button {
+  background-color: #f5a623;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.control-button:hover {
+  background-color: #d98b18;
+}
+
+#toggle-button {
+  font-size: 24px;
+  background-color: #28a745;
+  color: white;
+  padding: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#toggle-button:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 600px) {
+  .music-controls {
+    bottom: 5%;
+    right: 5%;
+  }
+}
