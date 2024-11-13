@@ -9,6 +9,7 @@ let currentStreak = 0;
 
 let candies = [];
 let colorBeingDragged, colorBeingReplaced, squareIdBeingDragged, squareIdBeingReplaced;
+let isDragging = false;
 
 const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 const dragStartEvent = isTouchDevice ? "touchstart" : "mousedown";
@@ -39,23 +40,32 @@ function createBoard() {
 
 function dragStart(e) {
   e.preventDefault();
-  colorBeingDragged = e.target.className;
-  squareIdBeingDragged = parseInt(e.target.id);
+  const candy = e.target;
+  candy.classList.add("dragging");
+  colorBeingDragged = candy.className;
+  squareIdBeingDragged = parseInt(candy.id);
+  isDragging = true;
 }
 
 function dragMove(e) {
-  if (isTouchDevice && e.touches) {
-    let touchLocation = e.touches[0];
-    let element = document.elementFromPoint(touchLocation.clientX, touchLocation.clientY);
-    if (element && element.classList.contains("candy")) {
-      colorBeingReplaced = element.className;
-      squareIdBeingReplaced = parseInt(element.id);
-    }
+  if (!isDragging) return;
+
+  // Calculate position based on touch or mouse movement
+  const clientX = isTouchDevice ? e.touches[0].clientX : e.clientX;
+  const clientY = isTouchDevice ? e.touches[0].clientY : e.clientY;
+  const elementUnderPoint = document.elementFromPoint(clientX, clientY);
+
+  if (elementUnderPoint && elementUnderPoint.classList.contains("candy")) {
+    colorBeingReplaced = elementUnderPoint.className;
+    squareIdBeingReplaced = parseInt(elementUnderPoint.id);
   }
 }
 
 function dragEnd(e) {
-  e.preventDefault();
+  isDragging = false;
+  const candy = candies[squareIdBeingDragged];
+  candy.classList.remove("dragging");
+
   const validMoves = [squareIdBeingDragged - 1, squareIdBeingDragged + 1, squareIdBeingDragged - width, squareIdBeingDragged + width];
   if (squareIdBeingReplaced && validMoves.includes(squareIdBeingReplaced)) {
     candies[squareIdBeingDragged].className = colorBeingReplaced;
