@@ -7,72 +7,68 @@ let score = 0;
 let longestStreak = 0;
 let currentStreak = 0;
 
-// Add audio elements
-const matchSound = new Audio('match-sound.mp3'); // Add a matching sound effect here
-const backgroundMusic = new Audio('background-music.mp3'); // Add a background music file here
+let candies = [];
+let colorBeingDragged, colorBeingReplaced, squareIdBeingDragged, squareIdBeingReplaced;
+
+const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+const dragStartEvent = isTouchDevice ? "touchstart" : "dragstart";
+const dragEndEvent = isTouchDevice ? "touchend" : "dragend";
+
+const matchSound = new Audio('match-sound.mp3');
+const backgroundMusic = new Audio('background-music.mp3');
 backgroundMusic.loop = true;
 backgroundMusic.play();
 
-const candies = [];
+// Create the board
 function createBoard() {
   for (let i = 0; i < width * width; i++) {
     const candy = document.createElement("div");
     candy.classList.add("candy", candyColors[Math.floor(Math.random() * candyColors.length)]);
-    candy.setAttribute("draggable", true);
     candy.setAttribute("id", i);
-    candy.addEventListener("dragstart", dragStart);
-    candy.addEventListener("dragend", dragEnd);
-    candy.addEventListener("dragover", dragOver);
-    candy.addEventListener("dragenter", dragEnter);
-    candy.addEventListener("dragleave", dragLeave);
-    candy.addEventListener("drop", dragDrop);
+
+    // Attach drag/touch events for mobile or desktop
+    candy.addEventListener(dragStartEvent, dragStart);
+    candy.addEventListener(dragEndEvent, dragEnd);
+    candy.addEventListener("touchmove", dragOver);
+    
     grid.appendChild(candy);
     candies.push(candy);
   }
 }
 
-let colorBeingDragged, colorBeingReplaced, squareIdBeingDragged, squareIdBeingReplaced;
-
-function dragStart() {
+function dragStart(e) {
   colorBeingDragged = this.className;
   squareIdBeingDragged = parseInt(this.id);
 }
 
 function dragOver(e) {
   e.preventDefault();
-}
-
-function dragEnter(e) {
-  e.preventDefault();
-}
-
-function dragLeave() {
-  this.classList.remove("highlight");
-}
-
-function dragDrop() {
-  colorBeingReplaced = this.className;
-  squareIdBeingReplaced = parseInt(this.id);
-  candies[squareIdBeingDragged].className = colorBeingReplaced;
-  this.className = colorBeingDragged;
+  if (isTouchDevice) {
+    let touchLocation = e.targetTouches[0];
+    let element = document.elementFromPoint(touchLocation.clientX, touchLocation.clientY);
+    if (element && element.classList.contains("candy")) {
+      colorBeingReplaced = element.className;
+      squareIdBeingReplaced = parseInt(element.id);
+    }
+  }
 }
 
 function dragEnd() {
-  let validMoves = [squareIdBeingDragged - 1, squareIdBeingDragged + 1, squareIdBeingDragged - width, squareIdBeingDragged + width];
-  let validMove = validMoves.includes(squareIdBeingReplaced);
-  if (squareIdBeingReplaced && validMove) {
-    squareIdBeingReplaced = null;
+  const validMoves = [squareIdBeingDragged - 1, squareIdBeingDragged + 1, squareIdBeingDragged - width, squareIdBeingDragged + width];
+  if (squareIdBeingReplaced && validMoves.includes(squareIdBeingReplaced)) {
+    candies[squareIdBeingDragged].className = colorBeingReplaced;
+    candies[squareIdBeingReplaced].className = colorBeingDragged;
     checkForMatches();
   } else {
     candies[squareIdBeingDragged].className = colorBeingDragged;
     candies[squareIdBeingReplaced].className = colorBeingReplaced;
   }
+  squareIdBeingReplaced = null;
 }
 
 function checkForMatches() {
   let matchesFound = false;
 
-  // Row matches
   for (let i = 0; i < width * width; i++) {
     if (i % width > 5) continue;
     let row = [i, i + 1, i + 2];
@@ -86,7 +82,6 @@ function checkForMatches() {
     }
   }
 
-  // Column matches
   for (let i = 0; i < width * (width - 2); i++) {
     let column = [i, i + width, i + width * 2];
     let color = candies[i].className;
@@ -117,14 +112,12 @@ function updateScoreAndStreak() {
   scoreDisplay.textContent = score;
   streakDisplay.textContent = longestStreak;
 
-  if (score % 50 === 0) {
-    triggerCelebration();
-  }
+  if (score % 50 === 0) triggerCelebration();
 }
 
 function triggerCelebration() {
   for (let i = 0; i < 30; i++) {
-    setTimeout(() => createFirework(), i * 100);
+    setTimeout(createFirework, i * 100);
   }
 }
 
