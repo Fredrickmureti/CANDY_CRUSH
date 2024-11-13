@@ -11,8 +11,9 @@ let candies = [];
 let colorBeingDragged, colorBeingReplaced, squareIdBeingDragged, squareIdBeingReplaced;
 
 const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-const dragStartEvent = isTouchDevice ? "touchstart" : "dragstart";
-const dragEndEvent = isTouchDevice ? "touchend" : "dragend";
+const dragStartEvent = isTouchDevice ? "touchstart" : "mousedown";
+const dragMoveEvent = isTouchDevice ? "touchmove" : "mousemove";
+const dragEndEvent = isTouchDevice ? "touchend" : "mouseup";
 
 const matchSound = new Audio('match-sound.mp3');
 const backgroundMusic = new Audio('background-music.mp3');
@@ -26,25 +27,25 @@ function createBoard() {
     candy.classList.add("candy", candyColors[Math.floor(Math.random() * candyColors.length)]);
     candy.setAttribute("id", i);
 
-    // Attach drag/touch events for mobile or desktop
+    // Attach drag/touch events for smooth mobile experience
     candy.addEventListener(dragStartEvent, dragStart);
+    candy.addEventListener(dragMoveEvent, dragMove);
     candy.addEventListener(dragEndEvent, dragEnd);
-    candy.addEventListener("touchmove", dragOver);
-    
+
     grid.appendChild(candy);
     candies.push(candy);
   }
 }
 
 function dragStart(e) {
-  colorBeingDragged = this.className;
-  squareIdBeingDragged = parseInt(this.id);
+  e.preventDefault();
+  colorBeingDragged = e.target.className;
+  squareIdBeingDragged = parseInt(e.target.id);
 }
 
-function dragOver(e) {
-  e.preventDefault();
-  if (isTouchDevice) {
-    let touchLocation = e.targetTouches[0];
+function dragMove(e) {
+  if (isTouchDevice && e.touches) {
+    let touchLocation = e.touches[0];
     let element = document.elementFromPoint(touchLocation.clientX, touchLocation.clientY);
     if (element && element.classList.contains("candy")) {
       colorBeingReplaced = element.className;
@@ -53,7 +54,8 @@ function dragOver(e) {
   }
 }
 
-function dragEnd() {
+function dragEnd(e) {
+  e.preventDefault();
   const validMoves = [squareIdBeingDragged - 1, squareIdBeingDragged + 1, squareIdBeingDragged - width, squareIdBeingDragged + width];
   if (squareIdBeingReplaced && validMoves.includes(squareIdBeingReplaced)) {
     candies[squareIdBeingDragged].className = colorBeingReplaced;
