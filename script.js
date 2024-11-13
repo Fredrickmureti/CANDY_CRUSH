@@ -8,7 +8,6 @@ let longestStreak = 0;
 let currentStreak = 0;
 
 let candies = [];
-let swipeStartX, swipeStartY, swipeEndX, swipeEndY;
 let candyBeingSwiped, squareIdBeingSwiped, direction;
 
 // Sound effects and background music
@@ -35,21 +34,16 @@ function createBoard() {
 
 // Start tracking swipe position
 function swipeStart(e) {
-  swipeStartX = e.touches[0].clientX;
-  swipeStartY = e.touches[0].clientY;
   squareIdBeingSwiped = parseInt(e.target.id);
 }
 
 // Calculate swipe direction on touch end
 function swipeEnd(e) {
-  swipeEndX = e.changedTouches[0].clientX;
-  swipeEndY = e.changedTouches[0].clientY;
-  determineSwipeDirection();
-  moveCandy();
-}
+  let swipeEndX = e.changedTouches[0].clientX;
+  let swipeEndY = e.changedTouches[0].clientY;
+  let swipeStartX = e.touches[0].clientX;
+  let swipeStartY = e.touches[0].clientY;
 
-// Determine swipe direction
-function determineSwipeDirection() {
   const deltaX = swipeEndX - swipeStartX;
   const deltaY = swipeEndY - swipeStartY;
 
@@ -58,6 +52,8 @@ function determineSwipeDirection() {
   } else {
     direction = deltaY > 0 ? "down" : "up";
   }
+
+  moveCandy();
 }
 
 // Move candy based on swipe direction
@@ -80,8 +76,11 @@ function moveCandy() {
 
   // Check for valid moves and swap candies if valid
   if (isValidMove(targetId)) {
-    candies[squareIdBeingSwiped].className = candies[targetId].className;
-    candies[targetId].className = candyBeingSwiped;
+    const colorBeingSwiped = candies[squareIdBeingSwiped].className;
+    const colorBeingReplaced = candies[targetId].className;
+
+    candies[squareIdBeingSwiped].className = colorBeingReplaced;
+    candies[targetId].className = colorBeingSwiped;
     checkForMatches();
   }
 }
@@ -98,14 +97,13 @@ function isValidMove(targetId) {
 function checkForMatches() {
   let matchesFound = false;
 
-  // Check rows and columns for matches, similar to before
   for (let i = 0; i < width * width; i++) {
     // Check rows
     if (i % width > 5) continue;
     let row = [i, i + 1, i + 2];
     let color = candies[i].className;
     if (row.every(index => candies[index].className === color)) {
-      row.forEach(index => candies[index].className = "matched");
+      row.forEach(index => candies[index].classList.add("matched"));
       score += 3;
       matchesFound = true;
       matchSound.play();
@@ -113,12 +111,12 @@ function checkForMatches() {
     }
   }
 
-  // Check columns
   for (let i = 0; i < width * (width - 2); i++) {
+    // Check columns
     let column = [i, i + width, i + width * 2];
     let color = candies[i].className;
     if (column.every(index => candies[index].className === color)) {
-      column.forEach(index => candies[index].className = "matched");
+      column.forEach(index => candies[index].classList.add("matched"));
       score += 3;
       matchesFound = true;
       matchSound.play();
@@ -131,16 +129,41 @@ function checkForMatches() {
 
 // Replace matched candies
 function replaceMatches() {
+  // Remove matched candies
   for (let i = 0; i < width * width; i++) {
     if (candies[i].classList.contains("matched")) {
       candies[i].classList.remove("matched");
       candies[i].className = "candy " + candyColors[Math.floor(Math.random() * candyColors.length)];
     }
   }
-  checkForMatches();
+
+  // Apply gravity: let the candies fall
+  applyGravity();
+
+  // Recheck for matches after applying gravity
+  setTimeout(checkForMatches, 500);
 }
 
-// Update score and longest streak
+// Apply gravity to make candies fall
+function applyGravity() {
+  for (let i = width * width - width - 1; i >= 0; i--) {
+    if (candies[i].classList.contains("candy")) {
+      let emptySpace = i;
+      let currentCandy = i;
+
+      while (currentCandy < width * width && candies[currentCandy + width] && !candies[currentCandy + width].classList.contains("matched")) {
+        emptySpace = currentCandy + width;
+        currentCandy = emptySpace;
+      }
+
+      if (currentCandy !== emptySpace) {
+        candies[emptySpace].className = candies[currentCandy].className;
+        candies[currentCandy].className = "candy " + candyColors[Math.floor(Math.random() * candyColors.length)];
+      }
+    }
+  }
+}
+
 function updateScoreAndStreak() {
   currentStreak++;
   longestStreak = Math.max(longestStreak, currentStreak);
