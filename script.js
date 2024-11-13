@@ -17,7 +17,7 @@ let squareIdBeingSwiped;
 const matchSound = new Audio('/audio/game-bonus-144751_2FicewcF.mp3');
 //const backgroundMusic = new Audio('/audio/Me_Gustas.mp3');
 //backgroundMusic.loop = true;
-//backgroundMusic.play();
+//backgroundMusic.play();/
 const backgroundMusic = new Audio();
 const musicTracks = [
   '/audio/Me_Gustas.mp3',  // Replace with actual URLs or file paths for your music tracks
