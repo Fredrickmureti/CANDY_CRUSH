@@ -23,9 +23,6 @@ const musicTracks = [
   '/audio/Me_Gustas.mp3',  // Replace with actual URLs or file paths for your music tracks
   '/audio/Wonki - Sunset Paradise (Vlog No Copyright Music).m4a.mp3',
   '/audio/Bronski Beat - Smalltown Boy (Official Video).m4a.mp3',
-  '/audio/Glass_Animals_-_Heat_Waves_(Official_Video)(256k).mp3',
-  '/audio/Sia_-_Cheap_Thrills_(Official_Lyric_Video)_ft._Sean_Paul(256k).mp3',
-  '/audio/Chilled Vision - HAPPINESS [No Copyright  Free Music].m4a.mp3'
 ];
 
 let currentTrackIndex = 0;
