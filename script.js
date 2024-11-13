@@ -14,7 +14,7 @@ let squareIdBeingSwiped;
 
 // Sound effects and background music
 const matchSound = new Audio('match-sound.mp3');
-const backgroundMusic = new Audio('background-music.mp3');
+const backgroundMusic = new Audio('/audios/Me_Gustas.mp3');
 backgroundMusic.loop = true;
 backgroundMusic.play();
 
