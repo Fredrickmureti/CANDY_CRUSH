@@ -12,6 +12,7 @@ let candies = [];
 let isSwipeInProgress = false;
 let swipeStartX, swipeStartY, swipeEndX, swipeEndY, direction;
 let squareIdBeingSwiped;
+const celebration_sound = new Audio('/audio/applause-01-253125.mp3');
 
 // Sound effects and background music
 const matchSound = new Audio('/audio/game-bonus-144751_2FicewcF.mp3');
@@ -20,9 +21,9 @@ const matchSound = new Audio('/audio/game-bonus-144751_2FicewcF.mp3');
 //backgroundMusic.play();/
 const backgroundMusic = new Audio();
 const musicTracks = [
-  '/audio/Me_Gustas.mp3',  // Replace with actual URLs or file paths for your music tracks
-  '/audio/Bronski Beat - Smalltown Boy (Official Video).m4a.mp3',
+  '/audio/Me_Gustas.mp3',
   '/audio/Wonki - Sunset Paradise (Vlog No Copyright Music).m4a.mp3',
+  '/audio/Bronski Beat - Smalltown Boy (Official Video).m4a.mp3'
 ];
 
 let currentTrackIndex = 0;
@@ -39,8 +40,15 @@ const toggleButton = document.getElementById("toggle-button");
 function playMusic() {
   backgroundMusic.src = musicTracks[currentTrackIndex];
   backgroundMusic.loop = false;
-  backgroundMusic.play();
+
+  // Attempt to play the music and catch errors for auto-play restrictions
+  return backgroundMusic.play().catch((error) => {
+    toggleMusicButton.textContent = "Play Music";
+    isMusicPlaying = false; // Set flag to false if play was blocked
+  });
 }
+
+playMusic();
 
 // Change to the next track in the array
 function playNextTrack() {
@@ -256,6 +264,7 @@ function updateScoreAndStreak() {
 function triggerCelebration() {
   for (let i = 0; i < 30; i++) {
     setTimeout(createFirework, i * 100);
+    celebration_sound.play();
   }
 }
 
