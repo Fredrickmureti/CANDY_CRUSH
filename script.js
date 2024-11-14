@@ -20,7 +20,7 @@ document.getElementById("grid").addEventListener("touchstart", (e) => e.preventD
 
 
 // Sound effects and background music
-const matchSound = new Audio('/music/applause.mp3');
+const matchSound = new Audio('/music/game_bonus.mp3');
 //const backgroundMusic = new Audio('/audio/Me_Gustas.mp3');
 //backgroundMusic.loop = true;
 //backgroundMusic.play();/
