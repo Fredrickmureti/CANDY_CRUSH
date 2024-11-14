@@ -33,22 +33,22 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Prevent default scrolling or other actions on touch within the game grid\
+// Prevent default scrolling or other actions only on the game grid
 document.getElementById("grid").addEventListener("touchstart", (e) => {
-  e.preventDefault();  // Prevent page scrolling
+  e.preventDefault(); // Prevent page scrolling
   e.stopPropagation(); // Prevent event bubbling to parent elements
 }, { passive: false });
 
-
 document.getElementById("grid").addEventListener("touchmove", (e) => {
-  e.preventDefault();  // Prevent page scrolling or gesture actions
+  e.preventDefault(); // Prevent page scrolling or gesture actions
   e.stopPropagation(); // Prevent event bubbling to parent elements
 }, { passive: false });
 
 document.getElementById("grid").addEventListener("touchend", (e) => {
-  e.preventDefault();  // Prevent page refresh or default action
+  e.preventDefault(); // Prevent default action only within the grid
   e.stopPropagation(); // Prevent event bubbling to parent elements
 }, { passive: false });
+
 
 
 
