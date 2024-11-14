@@ -24,9 +24,9 @@ const matchSound = new Audio('/audio/game-bonus-144751_2FicewcF.mp3');
 //backgroundMusic.play();/
 const backgroundMusic = new Audio();
 const musicTracks = [
-  '/audio/Me_Gustas.mp3',
-  '/audio/Wonki - Sunset Paradise (Vlog No Copyright Music).m4a.mp3',
-  '/audio/Bronski Beat - Smalltown Boy (Official Video).m4a.mp3'
+  '/public/audio/Me_Gustas.mp3',
+  '/public/audio/Wonki - Sunset Paradise (Vlog No Copyright Music).m4a.mp3',
+  '/public/audio/Bronski Beat - Smalltown Boy (Official Video).m4a.mp3'
 ];
 
 let currentTrackIndex = 0;
