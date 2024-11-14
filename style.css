@@ -156,6 +156,7 @@ footer .github-link img {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-bottom: 50px;
 }
 
 .control-button:hover {
