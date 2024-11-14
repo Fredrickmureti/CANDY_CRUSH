@@ -15,12 +15,30 @@ let isSwipeInProgress = false;
 let swipeStartX, swipeStartY, swipeEndX, swipeEndY, direction;
 let squareIdBeingSwiped;
 const celebration_sound = new Audio('/music/applause.mp3');
-// Prevent default scrolling or other actions on touch within the game grid
-// Prevent default scrolling or other actions on touch within the game grid
+
+window.addEventListener("DOMContentLoaded", () => {
+  // Music Controls
+  const playNextButton = document.getElementById("play-next-music");
+  const toggleMusicButton = document.getElementById("toggle-music");
+  const resetButton = document.getElementById("reset-button");
+
+  // Event listener for play next music button
+  playNextButton.addEventListener("click", playNextTrack);
+
+  // Event listener for toggle music button
+  toggleMusicButton.addEventListener("click", toggleMusic);
+
+  // Event listener for reset game button
+  resetButton.addEventListener("click", resetGame);
+});
+
+
+// Prevent default scrolling or other actions on touch within the game grid\
 document.getElementById("grid").addEventListener("touchstart", (e) => {
   e.preventDefault();  // Prevent page scrolling
   e.stopPropagation(); // Prevent event bubbling to parent elements
 }, { passive: false });
+
 
 document.getElementById("grid").addEventListener("touchmove", (e) => {
   e.preventDefault();  // Prevent page scrolling or gesture actions
@@ -78,7 +96,7 @@ function playMusic() {
   backgroundMusic.loop = false;
 
   // Attempt to play the music and catch errors for auto-play restrictions
-  return backgroundMusic.play().catch((error) => {
+  backgroundMusic.play().catch((error) => {
     toggleMusicButton.textContent = "Play Music";
     isMusicPlaying = false; // Set flag to false if play was blocked
   });
@@ -126,7 +144,6 @@ function toggleMusic() {
   }
   isMusicPlaying = !isMusicPlaying;
 }
-
 
 // Create the board
 function createBoard() {
@@ -353,7 +370,7 @@ function createFirework() {
 createBoard();
 
 
-//Reset the game
+// Reset the game
 function resetGame() {
   score = 0;
   currentStreak = 0;
@@ -368,6 +385,9 @@ function resetGame() {
   localStorage.removeItem('score');
   localStorage.removeItem('currentStreak');
   localStorage.removeItem('longestStreak');
+
+  // Reset board (you can choose to reset the candies and game grid here)
+  createBoard(); // You may want to call a function to reinitialize the board
 }
 
 // Add an event listener to the reset button
