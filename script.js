@@ -33,30 +33,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
-window.addEventListener("DOMContentLoaded", () => {
-  // Music Controls
-  const playNextButton = document.getElementById("play-next-music");
-  const toggleMusicButton = document.getElementById("toggle-music");
-  const resetButton = document.getElementById("reset-button");
 
-  // Event listener for play next music button
-  playNextButton.addEventListener("touchstart", (e) => {
-    e.stopPropagation();
-    playNextTrack();
-  }, { passive: true });
-
-  // Event listener for toggle music button
-  toggleMusicButton.addEventListener("touchstart", (e) => {
-    e.stopPropagation();
-    toggleMusic();
-  }, { passive: true });
-
-  // Event listener for reset game button
-  resetButton.addEventListener("touchstart", (e) => {
-    e.stopPropagation();
-    resetGame();
-  }, { passive: true });
-});
 
 
 
@@ -222,11 +199,11 @@ function swipeEnd(e) {
 // Prevent browser default behavior for touch events like swipe-to-refresh
 document.addEventListener("touchstart", function (e) {
   e.preventDefault();
-}, { passive: false });
+}, { passive: true });
 
 document.addEventListener("touchmove", function (e) {
   e.preventDefault();
-}, { passive: false });
+}, { passive: true });
 
 // Touch event listeners
 grid.addEventListener("touchstart", swipeStart);
@@ -412,9 +389,6 @@ function resetGame() {
   localStorage.removeItem('score');
   localStorage.removeItem('currentStreak');
   localStorage.removeItem('longestStreak');
-
-  // Reset board (you can choose to reset the candies and game grid here)
-  createBoard(); // You may want to call a function to reinitialize the board
 }
 
 // Add an event listener to the reset button
