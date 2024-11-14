@@ -1,7 +1,7 @@
 const grid = document.getElementById("grid");
 const scoreDisplay = document.getElementById("score");
 const streakDisplay = document.getElementById("streak");
-const background_audio = '/audio/Me_Gustas.mp3';
+const background_audio = '/music/Me_Gustas.mp3';
 const width = 8;
 const candyColors = ["red", "blue", "green", "yellow", "purple"];
 let score = 0;
@@ -18,15 +18,15 @@ document.getElementById("grid").addEventListener("touchstart", (e) => e.preventD
 
 
 // Sound effects and background music
-const matchSound = new Audio('/audio/game-bonus-144751_2FicewcF.mp3');
+const matchSound = new Audio('/music/applause.mp3');
 //const backgroundMusic = new Audio('/audio/Me_Gustas.mp3');
 //backgroundMusic.loop = true;
 //backgroundMusic.play();/
 const backgroundMusic = new Audio();
 const musicTracks = [
-  '/public/audio/Me_Gustas.mp3',
-  '/public/audio/Wonki - Sunset Paradise (Vlog No Copyright Music).m4a.mp3',
-  '/public/audio/Bronski Beat - Smalltown Boy (Official Video).m4a.mp3'
+  '/music/game_bonus.mp3',
+  '/music/wonki.mp3',
+  '/music/Bronski_Beat.mp3'
 ];
 
 let currentTrackIndex = 0;
