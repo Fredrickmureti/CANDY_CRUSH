@@ -260,6 +260,7 @@ function updateScoreAndStreak() {
 
   // Trigger celebration at streak 20
   if (currentStreak % 20 === 0 && currentStreak !== 0) {
+    celebration_sound.play();
     triggerCelebration();
   }
 
@@ -271,7 +272,6 @@ function updateScoreAndStreak() {
 function triggerCelebration() {
   for (let i = 0; i < 30; i++) {
     setTimeout(createFirework, i * 100);
-    celebration_sound.play();
   }
 }
 
