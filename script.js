@@ -33,6 +33,33 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
+window.addEventListener("DOMContentLoaded", () => {
+  // Music Controls
+  const playNextButton = document.getElementById("play-next-music");
+  const toggleMusicButton = document.getElementById("toggle-music");
+  const resetButton = document.getElementById("reset-button");
+
+  // Event listener for play next music button
+  playNextButton.addEventListener("touchstart", (e) => {
+    e.stopPropagation();
+    playNextTrack();
+  }, { passive: true });
+
+  // Event listener for toggle music button
+  toggleMusicButton.addEventListener("touchstart", (e) => {
+    e.stopPropagation();
+    toggleMusic();
+  }, { passive: true });
+
+  // Event listener for reset game button
+  resetButton.addEventListener("touchstart", (e) => {
+    e.stopPropagation();
+    resetGame();
+  }, { passive: true });
+});
+
+
+
 // Prevent default scrolling or other actions only on the game grid
 document.getElementById("grid").addEventListener("touchstart", (e) => {
   e.preventDefault(); // Prevent page scrolling
