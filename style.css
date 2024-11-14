@@ -147,6 +147,13 @@ footer .github-link img {
   z-index: 1000;
 }
 
+.setting-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 87%;
+  z-index: 1000;
+}
+
 .control-button {
   background-color: #f5a623;
   color: white;
@@ -165,6 +172,10 @@ footer .github-link img {
 
   #play-next-music {
     margin-bottom: 15px;
+  }
+
+  #start-over {
+    margin-bottom: 50px;
   }
 
 }
@@ -187,8 +198,9 @@ footer .github-link img {
 }
 
 @media (max-width: 600px) {
-  .music-controls {
+  .music-controls setting-controls {
     bottom: 5%;
     right: 5%;
   }
 }
+

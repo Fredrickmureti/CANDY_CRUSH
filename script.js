@@ -19,6 +19,21 @@ const celebration_sound = new Audio('/music/applause.mp3');
 document.getElementById("grid").addEventListener("touchstart", (e) => e.preventDefault());
 
 
+function loadSavedData() {
+  score = parseInt(localStorage.getItem('score')) || 0;
+  currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
+  longestStreak = parseInt(localStorage.getItem('longestStreak')) || 0;
+
+  // Update the displayed score and streaks
+  scoreDisplay.textContent = score;
+  streakDisplay.textContent = currentStreak;
+}
+
+// Call this function to load data when the game starts
+loadSavedData();
+
+
+
 // Sound effects and background music
 const matchSound = new Audio('/music/game_bonus.mp3');
 //const backgroundMusic = new Audio('/audio/Me_Gustas.mp3');
@@ -35,6 +50,7 @@ let currentTrackIndex = 0;
 let isMusicPlaying = true;
 
 const musicControls = document.getElementById("music-controls");
+const settingControls = document.getElementById("setting-controls")
 const playNextButton = document.getElementById("play-next-music");
 const toggleMusicButton = document.getElementById("toggle-music");
 const musicToggle = document.getElementById("music-toggle");
@@ -269,7 +285,13 @@ function updateScoreAndStreak() {
 
   // Update longest streak if necessary
   longestStreak = Math.max(longestStreak, currentStreak);
+
+  // Save score, current streak, and longest streak to localStorage
+  localStorage.setItem('score', score);
+  localStorage.setItem('currentStreak', currentStreak);
+  localStorage.setItem('longestStreak', longestStreak);
 }
+
 
 
 // Trigger celebration effect
@@ -291,6 +313,28 @@ function createFirework() {
 }
 
 createBoard();
+
+
+//Reset the game
+function resetGame() {
+  score = 0;
+  currentStreak = 0;
+  longestStreak = 0;
+  lastMilestone = 0;
+
+  // Update displayed values
+  scoreDisplay.textContent = score;
+  streakDisplay.textContent = currentStreak;
+
+  // Clear localStorage values
+  localStorage.removeItem('score');
+  localStorage.removeItem('currentStreak');
+  localStorage.removeItem('longestStreak');
+}
+
+// Add an event listener to the reset button
+document.getElementById("reset-button").addEventListener("click", resetGame);
+
 
 
 
