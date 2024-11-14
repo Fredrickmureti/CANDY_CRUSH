@@ -16,7 +16,22 @@ let swipeStartX, swipeStartY, swipeEndX, swipeEndY, direction;
 let squareIdBeingSwiped;
 const celebration_sound = new Audio('/music/applause.mp3');
 // Prevent default scrolling or other actions on touch within the game grid
-document.getElementById("grid").addEventListener("touchstart", (e) => e.preventDefault());
+// Prevent default scrolling or other actions on touch within the game grid
+document.getElementById("grid").addEventListener("touchstart", (e) => {
+  e.preventDefault();  // Prevent page scrolling
+  e.stopPropagation(); // Prevent event bubbling to parent elements
+}, { passive: false });
+
+document.getElementById("grid").addEventListener("touchmove", (e) => {
+  e.preventDefault();  // Prevent page scrolling or gesture actions
+  e.stopPropagation(); // Prevent event bubbling to parent elements
+}, { passive: false });
+
+document.getElementById("grid").addEventListener("touchend", (e) => {
+  e.preventDefault();  // Prevent page refresh or default action
+  e.stopPropagation(); // Prevent event bubbling to parent elements
+}, { passive: false });
+
 
 
 function loadSavedData() {
@@ -140,7 +155,8 @@ function swipeStart(e) {
 
 // End swipe tracking
 function swipeEnd(e) {
-  e.preventDefault(); // Prevent any default behavior
+  e.preventDefault(); // Prevent any default behavior (important for mobile)
+  if (isSwipeInProgress) return;
 
   swipeEndX = e.changedTouches[0].clientX;
   swipeEndY = e.changedTouches[0].clientY;
@@ -157,6 +173,20 @@ function swipeEnd(e) {
 
   moveCandy(direction);
 }
+
+
+// Prevent browser default behavior for touch events like swipe-to-refresh
+document.addEventListener("touchstart", function (e) {
+  e.preventDefault();
+}, { passive: false });
+
+document.addEventListener("touchmove", function (e) {
+  e.preventDefault();
+}, { passive: false });
+
+// Touch event listeners
+grid.addEventListener("touchstart", swipeStart);
+grid.addEventListener("touchend", swipeEnd);
 
 // Move candy based on swipe direction
 function moveCandy(direction) {
