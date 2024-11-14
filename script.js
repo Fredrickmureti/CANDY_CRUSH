@@ -7,6 +7,8 @@ const candyColors = ["red", "blue", "green", "yellow", "purple"];
 let score = 0;
 let longestStreak = 0;
 let currentStreak = 0;
+let lastMilestone = 0; // Keeps track of the last milestone (e.g., 20, 40, etc.)
+
 
 let candies = [];
 let isSwipeInProgress = false;
@@ -258,15 +260,17 @@ function updateScoreAndStreak() {
   scoreDisplay.textContent = score;
   streakDisplay.textContent = currentStreak;
 
-  // Trigger celebration at streak 20
-  if (currentStreak % 20 === 0 && currentStreak !== 0) {
+  // Trigger celebration only when reaching a new multiple of 20
+  if (currentStreak % 20 === 0 && currentStreak > lastMilestone) {
     celebration_sound.play();
     triggerCelebration();
+    lastMilestone = currentStreak; // Update the last milestone to the current streak
   }
 
   // Update longest streak if necessary
   longestStreak = Math.max(longestStreak, currentStreak);
 }
+
 
 // Trigger celebration effect
 function triggerCelebration() {
