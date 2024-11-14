@@ -199,15 +199,15 @@ function moveCandy(direction) {
       targetId = squareIdBeingSwiped - 1;
       break;
     case "down":
-      targetId = squareIdBeingSwiped + width;
+      targetId = squareIdBeingSwiped + width; // Moving down by width (next row)
       break;
     case "up":
-      targetId = squareIdBeingSwiped - width;
+      targetId = squareIdBeingSwiped - width; // Moving up by width (previous row)
       break;
   }
 
   // Only swap if it's a valid move
-  if (isValidMove(targetId)) {
+  if (isValidMove(targetId, direction)) {
     const colorBeingSwiped = candies[squareIdBeingSwiped].className;
     const colorBeingReplaced = candies[targetId].className;
 
@@ -219,11 +219,19 @@ function moveCandy(direction) {
 }
 
 // Validate move within grid bounds
-function isValidMove(targetId) {
-  if (targetId < 0 || targetId >= width * width) return false;
+function isValidMove(targetId, direction) {
+  if (targetId < 0 || targetId >= width * width) return false; // Out of bounds
+
+  // Ensure that the move is adjacent, check rows or columns
   const isAdjacent = Math.abs(targetId - squareIdBeingSwiped) === 1 || Math.abs(targetId - squareIdBeingSwiped) === width;
+  if (direction === "down" && targetId >= width * (width - 1)) {
+    // Prevent moving downward out of bounds
+    return false;
+  }
+
   return isAdjacent;
 }
+
 
 // Check for matches (3 or more in a row/column)
 function checkForMatches() {
