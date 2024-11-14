@@ -156,7 +156,17 @@ footer .github-link img {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-bottom: 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .control-button {
+    margin-bottom: 50px;
+  }
+
+  #play-next-music {
+    margin-bottom: 15px;
+  }
+
 }
 
 .control-button:hover {
