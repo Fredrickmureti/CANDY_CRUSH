@@ -14,7 +14,7 @@ let candies = [];
 let isSwipeInProgress = false;
 let swipeStartX, swipeStartY, swipeEndX, swipeEndY, direction;
 let squareIdBeingSwiped;
-const celebration_sound = new Audio('/audio/applause-01-253125.mp3');
+const celebration_sound = new Audio('/music/applause.mp3');
 // Prevent default scrolling or other actions on touch within the game grid
 document.getElementById("grid").addEventListener("touchstart", (e) => e.preventDefault());
 
