@@ -13,6 +13,9 @@ let isSwipeInProgress = false;
 let swipeStartX, swipeStartY, swipeEndX, swipeEndY, direction;
 let squareIdBeingSwiped;
 const celebration_sound = new Audio('/audio/applause-01-253125.mp3');
+// Prevent default scrolling or other actions on touch within the game grid
+document.getElementById("grid").addEventListener("touchstart", (e) => e.preventDefault());
+
 
 // Sound effects and background music
 const matchSound = new Audio('/audio/game-bonus-144751_2FicewcF.mp3');
@@ -109,7 +112,9 @@ function createBoard() {
 
 // Start swipe tracking
 function swipeStart(e) {
-  if (isSwipeInProgress) return; // Ignore if a swipe is already in progress
+  e.preventDefault(); // Prevent any default behavior
+  if (isSwipeInProgress) return;
+
   swipeStartX = e.touches[0].clientX;
   swipeStartY = e.touches[0].clientY;
   squareIdBeingSwiped = parseInt(e.target.id);
@@ -117,6 +122,8 @@ function swipeStart(e) {
 
 // End swipe tracking
 function swipeEnd(e) {
+  e.preventDefault(); // Prevent any default behavior
+
   swipeEndX = e.changedTouches[0].clientX;
   swipeEndY = e.changedTouches[0].clientY;
   isSwipeInProgress = false;
